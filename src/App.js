@@ -1,24 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import { Fragment } from 'react';
+import { TODOS } from './assets/data/TODOs';
+import { TodoCounter } from "./components/TodoCounter/TodoCounter";
+import { TodoSearch } from "./components/TodoSearch/TodoSearch";
+import { TodoList } from "./components/TodoList/TodoList";
+import { TodoItem } from "./components/TodoItem/TodoItem";
+import { TodoButton } from "./components/TodoButton/TodoButton";
+import { TODO } from './models/todo.model';
 
 function App() {
+
+  const todos = TODOS.map(todo => convertToTODO(todo));
+
+  function convertToTODO(value) {
+    return new TODO(value.description, value.completed);
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <TodoCounter />
+      <TodoSearch />
+      <TodoList> 
+        {
+          todos.map( (todo) =>  (
+            <TodoItem key={todo.id}
+                      todo={todo} />
+          ))   
+        }
+      </TodoList>
+      <TodoButton />
+    </Fragment>
   );
 }
 
