@@ -1,14 +1,18 @@
-import React from "react";
+import React, { Fragment } from "react";
 
-export const TodoSearch = () => {
+export const TodoSearch = ({ searchText, setSearchText }) => {
+
   const onSearchValueChange = ( {target: { value }} ) => {
-    console.log(value)
+    setSearchText(value);
   }
   
   return (
-    <input type="search" 
-           placeholder="TODO description"
-           onChange={ (event) => onSearchValueChange(event)}
-           />
+    <Fragment>
+      <input type="search"
+             value={ searchText } 
+             placeholder="TODO description"
+             onChange={ (event) => onSearchValueChange(event)}/>
+      <p>{ searchText }</p>
+    </Fragment>
   )
 }

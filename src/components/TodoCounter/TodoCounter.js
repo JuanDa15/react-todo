@@ -1,7 +1,9 @@
-import React from "react"
+import React, { Fragment } from "react"
 
-export const TodoCounter = () => {
+export const TodoCounter = ({ completedTodos, totalTodos }) => {
   return (
-    <h1>Has completado 2 de 4 TODO's</h1>
+    <Fragment>
+      <h1>Has completado {completedTodos} de {totalTodos} TODO's</h1>
+    </Fragment>
   )
 }

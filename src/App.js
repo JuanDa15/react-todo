@@ -1,5 +1,5 @@
 import './App.css';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { TODOS } from './assets/data/TODOs';
 import { TodoCounter } from "./components/TodoCounter/TodoCounter";
 import { TodoSearch } from "./components/TodoSearch/TodoSearch";
@@ -10,19 +10,39 @@ import { TODO } from './models/todo.model';
 
 function App() {
 
-  const todos = TODOS.map(todo => convertToTODO(todo));
+  const defaultTodos = TODOS.map(todo => convertToTODO(todo));
+
+  const [ todos, setTodos] = useState(defaultTodos);
+  const [ searchText, setSearchText ] = useState('');
+  
+  const completedTodos = todos.filter(todo => todo.completed ).length;
+  const totalTodos = todos.length;
+
+  let filterTodos = [];
 
   function convertToTODO(value) {
     return new TODO(value.description, value.completed);
   }
-  
+
+  if ( !(searchText.length >= 1)) {
+    filterTodos = todos;  
+  } else {
+    filterTodos = todos.filter(todo => {
+      return todo.description.toLowerCase().includes(searchText.toLowerCase());
+    });
+  }
+
   return (
     <Fragment>
-      <TodoCounter />
-      <TodoSearch />
+      <TodoCounter completedTodos={ completedTodos }
+                   totalTodos={totalTodos}
+      />
+      <TodoSearch searchText={searchText} 
+                  setSearchText={setSearchText}
+      />
       <TodoList> 
         {
-          todos.map( (todo) =>  (
+          filterTodos.map( (todo) =>  (
             <TodoItem key={todo.id}
                       todo={todo} />
           ))   
